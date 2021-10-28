@@ -5,6 +5,15 @@ public class Sonda {
 	private int posY;
 	private char direcao;
 	
+	public Sonda() {
+		
+	}
+	
+	public Sonda(int x, int y, char direcao) {
+		this.posX = x;
+		this.posY = y;
+		this.direcao = direcao;
+	}
 	
 	public int getPosX() {
 		return posX;
@@ -45,6 +54,21 @@ public class Sonda {
 			else {
 				direcao = direcoes.charAt(direcoes.indexOf(direcao) - 1);
 			}
+		}
+	}
+	
+	public void mover() {
+		if(direcao == 'N') {
+			posY += 1;
+		}
+		else if(direcao == 'E') {
+			posX += 1;
+		}
+		else if(direcao == 'S') {
+			posY -= 1;
+		}
+		else {
+			posX -= 1;
 		}
 	}
 	
