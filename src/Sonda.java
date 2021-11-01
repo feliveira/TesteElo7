@@ -4,16 +4,7 @@ public class Sonda {
 	private int posX;
 	private int posY;
 	private char direcao;
-	
-	public Sonda() {
-		
-	}
-	
-	public Sonda(int x, int y, char direcao) {
-		this.posX = x;
-		this.posY = y;
-		this.direcao = direcao;
-	}
+	private String comandos;
 	
 	public int getPosX() {
 		return posX;
@@ -33,7 +24,13 @@ public class Sonda {
 	public void setDirecao(char direcao) {
 		this.direcao = direcao;
 	}
-	
+	public String getComandos() {
+		return comandos;
+	}
+
+	public void setComandos(String comandos) {
+		this.comandos = comandos;
+	}
 	
 	public void virar(char comando) {
 		String direcoes = "NESW";
@@ -70,6 +67,31 @@ public class Sonda {
 		else {
 			posX -= 1;
 		}
+	}
+	
+	public void executarComandos() {
+		this.comandos = this.comandos.toUpperCase();
+		for(int i = 0; i < comandos.length(); i++) {
+			if(comandos.charAt(i) == 'R' || comandos.charAt(i) == 'L' ) {
+				virar(comandos.charAt(i));
+			}
+			else if(comandos.charAt(i) == 'M'){
+				mover();
+			}
+		}
+		
+	}
+	
+	public boolean ehValidoComandos() {
+		boolean validade = true;
+		for(int i = 0; i < comandos.length(); i++) {
+			if(comandos.charAt(i) != 'R' && comandos.charAt(i) != 'L' && comandos.charAt(i) != 'M') {
+				validade = false;
+				return validade;
+			}
+			
+		}
+		return validade;
 	}
 	
 }
