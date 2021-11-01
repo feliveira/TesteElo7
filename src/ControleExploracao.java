@@ -72,7 +72,7 @@ public class ControleExploracao {
 		
 		System.out.println("\n===========================================\n"
 							+ "Sondas lançadas, a missão acaba de começar!"
-							+"\n===========================================" );
+							+"\n===========================================\n" );
 		
 		sc.close();
 	}
@@ -104,27 +104,29 @@ public class ControleExploracao {
 		boolean segundasondaestaperdida = false;
 		
 		if(coordenada1.equals(coordenada2)) {
-			System.out.println("\nBOOM! As sondas colidiram, a missão falhou");
-		}
+			System.out.println("BOOM! As sondas colidiram, a missão falhou");
+		}		
+		
 		if(sonda1.getPosX() < 0 || sonda1.getPosX() > planalto.getTamanhoX() || sonda1.getPosY() < 0 || sonda1.getPosY() > planalto.getTamanhoY()){
-			System.out.println("A Sonda 1 foi além dos limites previstos, contato perdido");
+			System.out.println("Sonda 1 foi além dos limites previstos, contato perdido");
 			primeirasondaestaperdida = true;
 		}
 		if(sonda2.getPosX() < 0 || sonda2.getPosX() > planalto.getTamanhoX() || sonda2.getPosY() < 0 || sonda2.getPosY() > planalto.getTamanhoY()) {
-			System.out.println("A Sonda 2 foi além dos limites previstos, contato perdido");
+			System.out.println("Sonda 2 foi além dos limites previstos, contato perdido");
 			segundasondaestaperdida = true;
 		}
 		
 		if(primeirasondaestaperdida && segundasondaestaperdida) {
-			System.out.println("\nAmbas as sondas foram além dos limites previstos, contato perdido, a missão fracassou");
+			System.out.println("Ambas as sondas foram além dos limites previstos, contato perdido, a missão fracassou");
 		}
 		else if(primeirasondaestaperdida || segundasondaestaperdida) {
-			System.out.println("\nConseguimos posicionar uma das duas sondas enviadas, missão sucedida");
-		}
-		else {
-			System.out.println("\nMissão bem sucedida, ambas as sondas foram posicionadas corretamente, parabéns!");
+			System.out.println("Conseguimos posicionar uma das duas sondas enviadas, missão sucedida");
 		}
 		
+		if(coordenada1.equals(coordenada2) == false && primeirasondaestaperdida == false && segundasondaestaperdida == false) {
+			System.out.println("Missão bem sucedida, ambas as sondas foram posicionadas corretamente, parabéns!");
+		}
+			
 		System.out.println("\n===== Posições Finais das Sondas =====");
 		System.out.println("Sonda1:\n- X: " + sonda1.getPosX() + " - Y: " + sonda1.getPosY() + " - Direção: " + sonda1.getDirecao());
 		System.out.println("Sonda2:\n- X: " + sonda2.getPosX() + " - Y: " + sonda2.getPosY() + " - Direção: " + sonda2.getDirecao());
