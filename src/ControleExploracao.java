@@ -70,7 +70,9 @@ public class ControleExploracao {
 		} while(sonda2.ehValidoComandos() == false);
 		sonda2.executarComandos();
 		
-		System.out.println("Sondas lançadas, a missão acaba de começar!");
+		System.out.println("\n===========================================\n"
+							+ "Sondas lançadas, a missão acaba de começar!"
+							+"\n===========================================" );
 		
 		sc.close();
 	}
@@ -104,11 +106,11 @@ public class ControleExploracao {
 		if(coordenada1.equals(coordenada2)) {
 			System.out.println("\nBOOM! As sondas colidiram, a missão falhou");
 		}
-		else if(sonda1.getPosX() < 0 || sonda1.getPosX() > planalto.getTamanhoX() || sonda1.getPosY() < 0 || sonda1.getPosY() > planalto.getTamanhoY()){
+		if(sonda1.getPosX() < 0 || sonda1.getPosX() > planalto.getTamanhoX() || sonda1.getPosY() < 0 || sonda1.getPosY() > planalto.getTamanhoY()){
 			System.out.println("A Sonda 1 foi além dos limites previstos, contato perdido");
 			primeirasondaestaperdida = true;
 		}
-		else if(sonda2.getPosX() < 0 || sonda2.getPosX() > planalto.getTamanhoX() || sonda2.getPosY() < 0 || sonda2.getPosY() > planalto.getTamanhoY()) {
+		if(sonda2.getPosX() < 0 || sonda2.getPosX() > planalto.getTamanhoX() || sonda2.getPosY() < 0 || sonda2.getPosY() > planalto.getTamanhoY()) {
 			System.out.println("A Sonda 2 foi além dos limites previstos, contato perdido");
 			segundasondaestaperdida = true;
 		}
