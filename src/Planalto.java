@@ -1,25 +1,18 @@
 
 public class Planalto {
 	
-	private int tamanhoX;
-	private int tamanhoY;
+	private Posicao tamanho;
 	
-	public int getTamanhoX() {
-		return tamanhoX;
+	public Posicao getTamanho() {
+		return tamanho;
 	}
-	public void setTamanhoX(int tamanhoX) {
-		this.tamanhoX = tamanhoX;
-	}
-	public int getTamanhoY() {
-		return tamanhoY;
-	}
-	public void setTamanhoY(int tamanhoY) {
-		this.tamanhoY = tamanhoY;
+	public void setTamanho(Posicao tamanho) {
+		this.tamanho = tamanho;
 	}
 	
 	public boolean ehValido() {
 		boolean ehValido = false;
-		if(this.tamanhoX > 0 && this.tamanhoY > 0) {
+		if(this.tamanho.getX() > 0 && this.tamanho.getY() > 0) {
 			ehValido = true;
 		}
 		

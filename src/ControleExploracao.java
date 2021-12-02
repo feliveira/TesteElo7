@@ -16,12 +16,12 @@ public class ControleExploracao {
 		do {
 			System.out.println("Por favor, informe a dimensão da área que será explorada (X, Y)");
 			System.out.print("Sua resposta: ");
-			planalto.setTamanhoX(sc.nextInt());
-			planalto.setTamanhoY(sc.nextInt());
+			planalto.setTamanho(new Posicao(sc.nextInt(),sc.nextInt()));
 			if(!planalto.ehValido()) {
-				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
+				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?\n");
 			}
 		} while(!planalto.ehValido());
+		
 		
 		boolean coordenadaAdicionada = false;
 		while(!coordenadaAdicionada) {
@@ -50,8 +50,7 @@ public class ControleExploracao {
 	}
 	
 	public void adicionarSonda(Sonda sonda, int posX, int posY, Direcao direcao) {
-		sonda.setPosX(posX);
-		sonda.setPosY(posY);
+		sonda.setPosicao(new Posicao(posX, posY));
 		sonda.setDirecao(direcao);
 	}
 	
@@ -92,10 +91,10 @@ public class ControleExploracao {
 	
 	public boolean ehValidoCoordernadas(int posX, int posY, String direcao) {
 		boolean ehvalidoPosicao = true;
-		if(posX < 0 || posX > planalto.getTamanhoX()) {
+		if(posX < 0 || posX > planalto.getTamanho().getX()) {
 			ehvalidoPosicao = false;
 		}
-		else if(posY < 0 || posY > planalto.getTamanhoY()) {
+		else if(posY < 0 || posY > planalto.getTamanho().getY()) {
 			ehvalidoPosicao = false;
 		}
 		
@@ -112,38 +111,38 @@ public class ControleExploracao {
 	
 	
 	public void validarExploracao() {
-		String coordenada1 ="" + sonda1.getPosX() + "" + sonda1.getPosY() + "";
-		String coordenada2 ="" + sonda2.getPosX() + "" + sonda2.getPosY() + "";
-		boolean primeirasondaestaperdida = false;
-		boolean segundasondaestaperdida = false;
+//		String coordenada1 ="" + sonda1.getPosicao().getX() + "" + sonda1.getPosicao().getY() + "";
+//		//String coordenada2 ="" + sonda2.getPosicao().getX() + "" + sonda2.getPosicao().getY() + "";
+//		boolean primeirasondaestaperdida = false;
+//		boolean segundasondaestaperdida = false;
 		
-		if(coordenada1.equals(coordenada2)) {
-			System.out.println("BOOM! As sondas colidiram, a missão falhou");
-		}		
+//		if(coordenada1.equals(coordenada2)) {
+//			System.out.println("BOOM! As sondas colidiram, a missão falhou");
+//		}		
 		
-		if(sonda1.getPosX() < 0 || sonda1.getPosX() > planalto.getTamanhoX() || sonda1.getPosY() < 0 || sonda1.getPosY() > planalto.getTamanhoY()){
+		if(sonda1.getPosicao().getX() < 0 || sonda1.getPosicao().getX() > planalto.getTamanho().getX() || sonda1.getPosicao().getY() < 0 ||sonda1.getPosicao().getY() > planalto.getTamanho().getY()){
 			System.out.println("Sonda 1 foi além dos limites previstos, contato perdido");
-			primeirasondaestaperdida = true;
+//			primeirasondaestaperdida = true;
 		}
-		if(sonda2.getPosX() < 0 || sonda2.getPosX() > planalto.getTamanhoX() || sonda2.getPosY() < 0 || sonda2.getPosY() > planalto.getTamanhoY()) {
-			System.out.println("Sonda 2 foi além dos limites previstos, contato perdido");
-			segundasondaestaperdida = true;
-		}
+//		if(sonda2.getPosicao().getX() < 0 || sonda2.getPosicao().getX() > planalto.getTamanhoX() ||sonda2.getPosicao().getY() < 0 || sonda2.getPosicao().getY() > planalto.getTamanhoY()) {
+//			System.out.println("Sonda 2 foi além dos limites previstos, contato perdido");
+//			segundasondaestaperdida = true;
+//		}
 		
-		if(primeirasondaestaperdida && segundasondaestaperdida) {
-			System.out.println("Ambas as sondas foram além dos limites previstos, contato perdido, a missão fracassou");
-		}
-		else if(primeirasondaestaperdida || segundasondaestaperdida) {
-			System.out.println("Conseguimos posicionar uma das duas sondas enviadas, missão sucedida");
-		}
+//		if(primeirasondaestaperdida && segundasondaestaperdida) {
+//			System.out.println("Ambas as sondas foram além dos limites previstos, contato perdido, a missão fracassou");
+//		}
+//		else if(primeirasondaestaperdida || segundasondaestaperdida) {
+//			System.out.println("Conseguimos posicionar uma das duas sondas enviadas, missão sucedida");
+//		}
 		
-		if(coordenada1.equals(coordenada2) == false && primeirasondaestaperdida == false && segundasondaestaperdida == false) {
-			System.out.println("Missão bem sucedida, ambas as sondas foram posicionadas corretamente, parabéns!");
-		}
+//		if(coordenada1.equals(coordenada2) == false && primeirasondaestaperdida == false && segundasondaestaperdida == false) {
+//			System.out.println("Missão bem sucedida, ambas as sondas foram posicionadas corretamente, parabéns!");
+//		}
 			
 		System.out.println("\n===== Posições Finais das Sondas =====");
-		System.out.println("Sonda1:\n- X: " + sonda1.getPosX() + " - Y: " + sonda1.getPosY() + " - Direção: " + sonda1.getDirecao());
-		System.out.println("Sonda2:\n- X: " + sonda2.getPosX() + " - Y: " + sonda2.getPosY() + " - Direção: " + sonda2.getDirecao());
+		System.out.println("Sonda1:\n- X: " + sonda1.getPosicao().getX() + " - Y: " + sonda1.getPosicao().getY() + " - Direção: " + sonda1.getDirecao());
+//		System.out.println("Sonda2:\n- X: " + sonda2.getPosicao().getX() + " - Y: " + sonda1.getPosicao().getY() + " - Direção: " + sonda2.getDirecao());
 		
 	}
 }

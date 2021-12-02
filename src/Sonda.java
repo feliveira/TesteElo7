@@ -1,23 +1,18 @@
 
 public class Sonda {
 	
-	private int posX;
-	private int posY;
+	private Posicao posicao;
 	private Direcao direcao;
 	private String comandos;
 	
-	public int getPosX() {
-		return posX;
+	public void setPosicao(Posicao posicao) {
+		this.posicao = posicao;
 	}
-	public void setPosX(int posX) {
-		this.posX = posX;
+	
+	public Posicao getPosicao() {
+		return posicao;
 	}
-	public int getPosY() {
-		return posY;
-	}
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
+	
 	public Direcao getDirecao() {
 		return direcao;
 	}
@@ -69,16 +64,16 @@ public class Sonda {
 	
 	public void mover() {
 		if(direcao == Direcao.N) {
-			posY += 1;
+			posicao.setY(posicao.getY() + 1);
 		}
 		else if(direcao == Direcao.E) {
-			posX += 1;
+			posicao.setX(posicao.getX() + 1);
 		}
 		else if(direcao == Direcao.S) {
-			posY -= 1;
+			posicao.setY(posicao.getY() - 1);
 		}
 		else {
-			posX -= 1;
+			posicao.setX(posicao.getX() - 1);
 		}
 	}
 	
