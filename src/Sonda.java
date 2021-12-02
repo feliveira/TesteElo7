@@ -3,7 +3,7 @@ public class Sonda {
 	
 	private int posX;
 	private int posY;
-	private char direcao;
+	private Direcao direcao;
 	private String comandos;
 	
 	public int getPosX() {
@@ -18,11 +18,11 @@ public class Sonda {
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
-	public char getDirecao() {
+	public Direcao getDirecao() {
 		return direcao;
 	}
-	public void setDirecao(char direcao) {
-		this.direcao = direcao;
+	public void setDirecao(Direcao d) {
+		this.direcao = d;
 	}
 	public String getComandos() {
 		return comandos;
@@ -33,35 +33,48 @@ public class Sonda {
 	}
 	
 	public void virar(char comando) {
-		String direcoes = "NESW";
-		
 		if(comando == 'R') {
-			if(direcao == 'W') {
-				direcao = 'N';
+				switch(direcao) {
+				case N:
+					direcao = Direcao.E;
+					break;
+				case E:
+					direcao = Direcao.S;
+					break;
+				case S:
+					direcao = Direcao.W;
+					break;
+				case W:
+					direcao = Direcao.N;
+					break;
 			}
-			else {
-				direcao = direcoes.charAt(direcoes.indexOf(direcao) + 1);
-			}
-			
 		}
 		else {
-			if(direcao == 'N') {
-				direcao = 'W';
-			}
-			else {
-				direcao = direcoes.charAt(direcoes.indexOf(direcao) - 1);
+			switch(direcao) {
+			 	case N:
+			 		direcao = Direcao.W;
+			 		break;
+			 	case W:
+			 		direcao = Direcao.S;
+			 		break;
+			 	case S:
+			 		direcao = Direcao.E;
+			 		break;
+			 	case E:
+			 		direcao = Direcao.N;
+			 		break;
 			}
 		}
 	}
 	
 	public void mover() {
-		if(direcao == 'N') {
+		if(direcao == Direcao.N) {
 			posY += 1;
 		}
-		else if(direcao == 'E') {
+		else if(direcao == Direcao.E) {
 			posX += 1;
 		}
-		else if(direcao == 'S') {
+		else if(direcao == Direcao.S) {
 			posY -= 1;
 		}
 		else {

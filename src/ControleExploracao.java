@@ -22,53 +22,25 @@ public class ControleExploracao {
 				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
 			}
 		} while(!planalto.ehValido());
-
-
-		do {
-			System.out.println("\nPor favor, informe a coordenada da Sonda 1 que será lançada (X, Y, Direção)");
-			System.out.print("Sua resposta: ");
-			adicionarSonda(sonda1);
-			if(!ehValidoCoordernadas(sonda1)) {
-				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
-			}
-		}while(!ehValidoCoordernadas(sonda1));
 		
-		
+		boolean coordenadaAdicionada = false;
+		while(!coordenadaAdicionada) {
+			coordenadaAdicionada = adicionarCoordenada(sonda1, 1);
+		}
+
 		System.out.println("\nOk! Quase lá, por favor insira os comandos para a Sonda 1");
 
-		do {
-			System.out.print("Sua resposta: ");
-			sonda1.setComandos(sc.next().toUpperCase());
-			sonda1.ehValidoComandos();
-			if(!sonda1.ehValidoComandos()) {
-				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
-				System.out.println("Por favor insira os comandos para a Sonda 1");
-			}
-		} while(!sonda1.ehValidoComandos());
+		adicionarComandos(sonda1);
+		
 		sonda1.executarComandos();
 		
-		
-		do {
-			System.out.println("\nPor favor, informe a coordenada da Sonda 2 que será lançada (X, Y, Direção)");
-			System.out.print("Sua resposta: ");
-			adicionarSonda(sonda2);
-			if(!ehValidoCoordernadas(sonda2)) {
-				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
-			}
-		}while(!ehValidoCoordernadas(sonda2));
-		
-		System.out.println("\nOk! Agora falta pouco, por favor insira os comandos para a Sonda 2");
-		
-		do {
-			System.out.print("Sua resposta: ");
-			sonda2.setComandos(sc.next().toUpperCase());
-			sonda2.ehValidoComandos();
-			if(!sonda2.ehValidoComandos()) {
-				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
-				System.out.println("Por favor insira os comandos para a Sonda 2");
-			}
-		} while(sonda2.ehValidoComandos() == false);
-		sonda2.executarComandos();
+//		adicionarCoordenada(sonda2, 2);
+//		
+//		System.out.println("\nOk! Agora falta pouco, por favor insira os comandos para a Sonda 2");
+//		
+//		adicionarComandos(sonda2);
+//		
+//		sonda2.executarComandos();
 		
 		System.out.println("\n===========================================\n"
 							+ "Sondas lançadas, a missão acaba de começar!"
@@ -77,25 +49,67 @@ public class ControleExploracao {
 		sc.close();
 	}
 	
-	public void adicionarSonda(Sonda sonda) {
-		sonda.setPosX(sc.nextInt());
-		sonda.setPosY(sc.nextInt());
-		sonda.setDirecao(sc.next().toUpperCase().charAt(0));
+	public void adicionarSonda(Sonda sonda, int posX, int posY, Direcao direcao) {
+		sonda.setPosX(posX);
+		sonda.setPosY(posY);
+		sonda.setDirecao(direcao);
 	}
 	
-	public boolean ehValidoCoordernadas(Sonda sonda) {
-		boolean validade = true;
-		if(sonda.getPosX() < 0 || sonda.getPosX() > planalto.getTamanhoX()) {
-			validade = false;
-		}
-		else if(sonda.getPosY() < 0 || sonda.getPosY() > planalto.getTamanhoY()) {
-			validade = false;
-		}
-		else if(sonda.getDirecao() != 'N' && sonda.getDirecao() != 'E' && sonda.getDirecao() != 'W' && sonda.getDirecao() != 'S') {
-			validade = false;
-		}
-		return validade;
+	
+	public boolean adicionarCoordenada(Sonda sonda, int numeroSonda) {
+			
+			boolean ehValido = false;
+			System.out.println("\nPor favor, informe a coordenada da Sonda " + numeroSonda + " que será lançada (X, Y, Direção)");
+			System.out.print("Sua resposta: ");
+			int posX = sc.nextInt();
+			int posY = sc.nextInt();
+			String direcao = sc.next();
+			
+			if(!ehValidoCoordernadas(posX, posY, direcao.toUpperCase())) {
+				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
+			}
+			else {
+				adicionarSonda(sonda, posX,posY,Direcao.valueOf(direcao.toUpperCase()));
+				ehValido = true;
+			}
+			
+			return ehValido;
 	}
+	
+	
+	public void adicionarComandos(Sonda sonda) {
+		do {
+			System.out.print("Sua resposta: ");
+			sonda.setComandos(sc.next().toUpperCase());
+			sonda.ehValidoComandos();
+			if(!sonda.ehValidoComandos()) {
+				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
+				System.out.println("Por favor insira os comandos para a Sonda 1");
+			}
+		} while(!sonda.ehValidoComandos());
+	}
+	
+	
+	public boolean ehValidoCoordernadas(int posX, int posY, String direcao) {
+		boolean ehvalidoPosicao = true;
+		if(posX < 0 || posX > planalto.getTamanhoX()) {
+			ehvalidoPosicao = false;
+		}
+		else if(posY < 0 || posY > planalto.getTamanhoY()) {
+			ehvalidoPosicao = false;
+		}
+		
+		Direcao[] direcoes = Direcao.values();
+		
+		boolean ehValidoDirecao = false;
+		for(Direcao d: direcoes) {
+			if(d.getValor().equals(direcao)) {
+				ehValidoDirecao = true;
+			}
+		}
+		return ehvalidoPosicao && ehValidoDirecao;
+	}
+	
 	
 	public void validarExploracao() {
 		String coordenada1 ="" + sonda1.getPosX() + "" + sonda1.getPosY() + "";
