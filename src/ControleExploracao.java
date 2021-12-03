@@ -4,6 +4,7 @@ public class ControleExploracao {
 	
 	Planalto planalto = new Planalto();
 	Sonda[] listaSondas;
+	int qtdColisoes = 0;
 	
 	
 	Scanner sc = new Scanner(System.in);
@@ -37,16 +38,25 @@ public class ControleExploracao {
 		
 		
 		for(int i = 0; i < listaSondas.length; i++) {
-			
-			
 				System.out.println("\nPor favor, informe a coordenada da Sonda " + (i + 1) + " que será lançada (X, Y, Direção)");
 				listaSondas[i] = AdicionarSondas(i);
 		}
-		
+				
 		for(int i = 0; i < listaSondas.length; i++) {
-			listaSondas[i].executarComandos();
+			String comandos = listaSondas[i].getComandos();
+			for(int j = 0; j < comandos.length(); j++) {
+				listaSondas[i].executarComando(comandos.charAt(j));
+				if(i >= 1) {
+					if(existeColisao(listaSondas[i].getPosicao().getX(),listaSondas[i].getPosicao().getY(), i)) {
+						comandos = "";
+						qtdColisoes++;
+					}
+				}
+				
+			}
+			
 		}
-
+		
 		System.out.println("\n===========================================\n"
 							+ "Sondas lançadas, a missão acaba de começar!"
 							+"\n===========================================\n" );
@@ -147,6 +157,8 @@ public class ControleExploracao {
 	
 	
 	public void validarExploracao() {
+		
+		System.out.printf("\nQuantidade de Colisões: %s\n",qtdColisoes);
 	
 		System.out.println("\n===== Posições Finais das Sondas =====");
 		for(int i = 0; i < listaSondas.length; i++) {

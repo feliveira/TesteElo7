@@ -77,17 +77,13 @@ public class Sonda {
 		}
 	}
 	
-	public void executarComandos() {
-		this.comandos = this.comandos.toUpperCase();
-		for(int i = 0; i < comandos.length(); i++) {
-			if(comandos.charAt(i) == 'R' || comandos.charAt(i) == 'L' ) {
-				virar(comandos.charAt(i));
-			}
-			else if(comandos.charAt(i) == 'M'){
-				mover();
-			}
+	public void executarComando(char comando) {
+		if(comando == 'R' || comando == 'L') {
+			virar(comando);
 		}
-		
+		else if(comando == 'M'){
+			mover();
+		}
 	}
 	
 	public boolean ehValidoComandos() {
