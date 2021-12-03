@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class ControleExploracao {	
 	
 	Planalto planalto = new Planalto();
-	Sonda sonda1 = new Sonda();
-	Sonda sonda2 = new Sonda();
+	Sonda[] listaSondas;
+	
 	
 	Scanner sc = new Scanner(System.in);
 	
@@ -23,25 +23,20 @@ public class ControleExploracao {
 		} while(!planalto.ehValido());
 		
 		
-		boolean coordenadaAdicionada = false;
-		while(!coordenadaAdicionada) {
-			coordenadaAdicionada = adicionarCoordenada(sonda1, 1);
+		System.out.println("Obrigado! Agora, por favor, nos diga quantas sondas serão enviadas para a missão de hoje: ");
+		System.out.print("Sua resposta: ");
+		int qtdSondas = sc.nextInt();
+		listaSondas = new Sonda[qtdSondas];
+		
+		
+		for(int i = 0; i < listaSondas.length; i++) {
+			listaSondas[i] = AdicionarSondas(i);
+		}
+		
+		for(int i = 0; i < listaSondas.length; i++) {
+			listaSondas[i].executarComandos();
 		}
 
-		System.out.println("\nOk! Quase lá, por favor insira os comandos para a Sonda 1");
-
-		adicionarComandos(sonda1);
-		
-		sonda1.executarComandos();
-		
-//		adicionarCoordenada(sonda2, 2);
-//		
-//		System.out.println("\nOk! Agora falta pouco, por favor insira os comandos para a Sonda 2");
-//		
-//		adicionarComandos(sonda2);
-//		
-//		sonda2.executarComandos();
-		
 		System.out.println("\n===========================================\n"
 							+ "Sondas lançadas, a missão acaba de começar!"
 							+"\n===========================================\n" );
@@ -49,45 +44,64 @@ public class ControleExploracao {
 		sc.close();
 	}
 	
+	public Sonda AdicionarSondas(int numeroSonda) {
+		System.out.println("\nPor favor, informe a coordenada da Sonda " + (numeroSonda + 1) + " que será lançada (X, Y, Direção)");
+		Sonda sonda = new Sonda();
+		int posX = 0, posY = 0;
+		String direcao = "";
+		
+		boolean coordenadaAdicionada = false;
+		
+		do {
+			System.out.print("Sua resposta: ");
+			posX = sc.nextInt();
+			posY = sc.nextInt();
+			direcao = sc.next();
+			coordenadaAdicionada = adicionarCoordenada(posX, posY,direcao);
+			if(!coordenadaAdicionada) {
+				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
+				System.out.println("\nPor favor, informe a coordenada da Sonda " + (numeroSonda + 1) + " que será lançada (X, Y, Direção)");
+			}
+			
+		}while(!coordenadaAdicionada);
+		
+		adicionarSonda(sonda, posX,posY,Direcao.valueOf(direcao.toUpperCase()));
+		
+		adicionarComandos(sonda,numeroSonda);
+		
+		return sonda;
+		
+	}
+	
+	public boolean adicionarCoordenada(int x, int y, String direcao) {
+		boolean ehValido = false; 
+		if(ehValidoCoordernadas(x, y, direcao.toUpperCase())) {
+			ehValido = true;
+		}
+		
+		return ehValido;
+	}
+	
+	
 	public void adicionarSonda(Sonda sonda, int posX, int posY, Direcao direcao) {
 		sonda.setPosicao(new Posicao(posX, posY));
 		sonda.setDirecao(direcao);
 	}
 	
-	
-	public boolean adicionarCoordenada(Sonda sonda, int numeroSonda) {
-			
-			boolean ehValido = false;
-			System.out.println("\nPor favor, informe a coordenada da Sonda " + numeroSonda + " que será lançada (X, Y, Direção)");
-			System.out.print("Sua resposta: ");
-			int posX = sc.nextInt();
-			int posY = sc.nextInt();
-			String direcao = sc.next();
-			
-			if(!ehValidoCoordernadas(posX, posY, direcao.toUpperCase())) {
-				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
-			}
-			else {
-				adicionarSonda(sonda, posX,posY,Direcao.valueOf(direcao.toUpperCase()));
-				ehValido = true;
-			}
-			
-			return ehValido;
-	}
-	
-	
-	public void adicionarComandos(Sonda sonda) {
+	public void adicionarComandos(Sonda sonda,int numeroSonda) {
+		System.out.println("\nOk! Quase lá, por favor insira os comandos para a Sonda " + (numeroSonda + 1) );
 		do {
 			System.out.print("Sua resposta: ");
 			sonda.setComandos(sc.next().toUpperCase());
 			sonda.ehValidoComandos();
 			if(!sonda.ehValidoComandos()) {
 				System.out.println("\nOps, alguma informação não foi inserida corretamente! Sem problemas, vamos tentar novamente?");
-				System.out.println("Por favor insira os comandos para a Sonda 1");
+				System.out.println("Por favor insira os comandos para a Sonda "+ (numeroSonda + 1));
 			}
 		} while(!sonda.ehValidoComandos());
 	}
 	
+
 	
 	public boolean ehValidoCoordernadas(int posX, int posY, String direcao) {
 		boolean ehvalidoPosicao = true;
@@ -120,10 +134,10 @@ public class ControleExploracao {
 //			System.out.println("BOOM! As sondas colidiram, a missão falhou");
 //		}		
 		
-		if(sonda1.getPosicao().getX() < 0 || sonda1.getPosicao().getX() > planalto.getTamanho().getX() || sonda1.getPosicao().getY() < 0 ||sonda1.getPosicao().getY() > planalto.getTamanho().getY()){
-			System.out.println("Sonda 1 foi além dos limites previstos, contato perdido");
+//		if(sonda.getPosicao().getX() < 0 || sonda.getPosicao().getX() > planalto.getTamanho().getX() || sonda.getPosicao().getY() < 0 ||sonda.getPosicao().getY() > planalto.getTamanho().getY()){
+//			System.out.println("Sonda 1 foi além dos limites previstos, contato perdido");
 //			primeirasondaestaperdida = true;
-		}
+//		}
 //		if(sonda2.getPosicao().getX() < 0 || sonda2.getPosicao().getX() > planalto.getTamanhoX() ||sonda2.getPosicao().getY() < 0 || sonda2.getPosicao().getY() > planalto.getTamanhoY()) {
 //			System.out.println("Sonda 2 foi além dos limites previstos, contato perdido");
 //			segundasondaestaperdida = true;
@@ -141,7 +155,10 @@ public class ControleExploracao {
 //		}
 			
 		System.out.println("\n===== Posições Finais das Sondas =====");
-		System.out.println("Sonda1:\n- X: " + sonda1.getPosicao().getX() + " - Y: " + sonda1.getPosicao().getY() + " - Direção: " + sonda1.getDirecao());
+		for(int i = 0; i < listaSondas.length; i++) {
+			System.out.println("Sonda"+ (i+1) + ":\n- X: " + listaSondas[i].getPosicao().getX() + " - Y: " + listaSondas[i].getPosicao().getY() + " - Direção: " + listaSondas[i].getDirecao());
+		}
+		
 //		System.out.println("Sonda2:\n- X: " + sonda2.getPosicao().getX() + " - Y: " + sonda1.getPosicao().getY() + " - Direção: " + sonda2.getDirecao());
 		
 	}
