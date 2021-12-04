@@ -160,20 +160,20 @@ public class ControleExploracao {
 			boolean passouLimite = passouLimites(listaSondas[i].getPosicao().getX(), listaSondas[i].getPosicao().getY());
 			if(!temColisao && !passouLimite) {
 				qtdSondasPosicionadas++;
-				numeroSondasPosicionadas+= (i+1) + ",";
+				numeroSondasPosicionadas+= " Sonda " + (i+1) + ",";
 			}
 			
 			if(passouLimite) {
-				numeroSondasForaLimites += (i+1) + ",";
+				numeroSondasForaLimites += " Sonda " + (i+1) + ",";
 			}
 			
 			if(temColisao) {
-				numeroSondasColidiram += (i+1) + ",";
+				numeroSondasColidiram += " Sonda " + (i+1) + ",";
 			}
 		}
 		
 		if(numeroSondasColidiram.length() > 0) {
-			System.out.println("Sondas que colidiram: " + numeroSondasColidiram);
+			System.out.println("Sondas que colidiram:" + numeroSondasColidiram);
 		}
 		else {
 			System.out.println("Sondas que colidiram: nenhuma,");
@@ -183,14 +183,14 @@ public class ControleExploracao {
 		System.out.printf("Quantidade de Sondas posicionadas corretamente: %d,", qtdSondasPosicionadas);
 		
 		if(numeroSondasPosicionadas.length() > 0) {
-			System.out.println("\nSondas posicionadas corretamente: " + numeroSondasPosicionadas );
+			System.out.println("\nSondas posicionadas corretamente:" + numeroSondasPosicionadas );
 		}
 		else {
 			System.out.println("\nSondas posicionadas corretamente: nenhuma,");
 		}
 		
 		if(numeroSondasForaLimites.length() > 0) {
-			System.out.println("Sondas que perdemos contato (foram além do Planalto): " + numeroSondasForaLimites);
+			System.out.println("Sondas que perdemos contato (foram além do Planalto):" + numeroSondasForaLimites);
 		}
 		else {
 			System.out.println("Sondas que perdemos contato (foram além do Planalto): nenhuma,");
@@ -205,6 +205,9 @@ public class ControleExploracao {
 		if(posX > planalto.getTamanho().getX() || posY > planalto.getTamanho().getY()) {
 			passouLimites = true;
 		}
+		else if(posX < 0 || posY < 0) {
+			passouLimites = true;
+		}
 		
 		return passouLimites;
 	}
@@ -215,23 +218,26 @@ public class ControleExploracao {
 		
 		System.out.printf("\nQuantidade de Colisões: %s,\n",qtdColisoes);
 		
-		int qtdSondas = verificarSondasPosicionadas();
-		
+		int qtdSondasPosicionadas = verificarSondasPosicionadas();
+		int sondasAdicionadas = listaSondas.length;
 		String resultadoExploracao = "";
-		if(qtdSondas == listaSondas.length) {
-			resultadoExploracao = "Todas as %d sondas foram posicionadas corretamente, a missão foi um completo sucesso!";
+		String proporcaoAcertos =  qtdSondasPosicionadas  +  " / "  + sondasAdicionadas;
+		
+		
+		if(qtdSondasPosicionadas == sondasAdicionadas) {
+			resultadoExploracao = proporcaoAcertos + " - Todas as " + sondasAdicionadas + " sondas foram posicionadas corretamente, a missão foi um completo sucesso!";
 		}
-		else if(qtdSondas > (listaSondas.length * 0.5)) {
-			resultadoExploracao = "A maior parte das %d sondas foram posicionadas corretamente, a missão foi um sucesso!";
+		else if(qtdSondasPosicionadas > (sondasAdicionadas * 0.5)) {
+			resultadoExploracao = proporcaoAcertos + " - A maior parte das "+ sondasAdicionadas + " sondas foram posicionadas corretamente, a missão foi um sucesso!";
 		}
-		else if(qtdSondas > 0) {
-			resultadoExploracao = "Conseguimos posicionar %d sondas, poderia ser melhor, mas não deixa de ser um êxito!";
+		else if(qtdSondasPosicionadas > 0) {
+			resultadoExploracao = proporcaoAcertos + " - Conseguimos posicionar " + qtdSondasPosicionadas + " sondas, poderia ser melhor, mas não deixa de ser um êxito!";
 		}
 		else {
-			resultadoExploracao = "Não conseguimos posicionar nenhuma das %d sondas, a missão fracassou...";
+			resultadoExploracao = "Não conseguimos posicionar nenhuma das "+ sondasAdicionadas +" sondas, a missão fracassou...";
 		}
 		
-		System.out.printf("\nResultado Final: " + resultadoExploracao, listaSondas.length);
+		System.out.println("\nResultado Final: " + resultadoExploracao);
 	
 		System.out.println("\n===== Posições Finais das Sondas =====");
 		for(int i = 0; i < listaSondas.length; i++) {
