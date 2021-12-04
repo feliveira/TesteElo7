@@ -233,6 +233,10 @@ public class ControleExploracao {
 		else if(qtdSondasPosicionadas > 0) {
 			resultadoExploracao = proporcaoAcertos + " - Conseguimos posicionar " + qtdSondasPosicionadas + " sondas, poderia ser melhor, mas não deixa de ser um êxito!";
 		}
+		else if(sondasAdicionadas == 1){
+			resultadoExploracao = "Não conseguimos posicionar nenhuma sonda, a missão fracassou...";
+			
+		}
 		else {
 			resultadoExploracao = "Não conseguimos posicionar nenhuma das "+ sondasAdicionadas +" sondas, a missão fracassou...";
 		}
