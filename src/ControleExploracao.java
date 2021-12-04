@@ -115,7 +115,7 @@ public class ControleExploracao {
 	}
 	
 	public void adicionarComandos(Sonda sonda,int numeroSonda) {
-		System.out.println("\nOk! Quase lá, por favor insira os comandos para a Sonda " + (numeroSonda + 1) );
+		System.out.println("\nOk! Por favor insira os comandos para a Sonda " + (numeroSonda + 1) );
 		do {
 			System.out.print("Sua resposta: ");
 			sonda.setComandos(sc.next().toUpperCase());
@@ -241,7 +241,7 @@ public class ControleExploracao {
 	
 		System.out.println("\n===== Posições Finais das Sondas =====");
 		for(int i = 0; i < listaSondas.length; i++) {
-			System.out.println("Sonda"+ (i+1) + ":\n- X: " + listaSondas[i].getPosicao().getX() + " - Y: " + listaSondas[i].getPosicao().getY() + " - Direção: " + listaSondas[i].getDirecao());
+			System.out.println("Sonda "+ (i+1) + ":\n- X: " + listaSondas[i].getPosicao().getX() + " - Y: " + listaSondas[i].getPosicao().getY() + " - Direção: " + listaSondas[i].getDirecao());
 		}		
 		
 	}
