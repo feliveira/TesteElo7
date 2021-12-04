@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ControleExploracao {	
@@ -66,9 +67,11 @@ public class ControleExploracao {
 	
 	public boolean existeColisao(int posX, int posY, int numeroSonda) {
 		boolean existeColisao = false;
-		for(int i = 0; i < listaSondas.length -1; i++) {
-			if(i != numeroSonda && listaSondas[i].getPosicao().getX() == posX && listaSondas[i].getPosicao().getY() == posY) {
-				existeColisao = true;
+		for(int i = 0; i < listaSondas.length; i++) {
+			if(Objects.nonNull(listaSondas[i])) {
+				if(i != numeroSonda && listaSondas[i].getPosicao().getX() == posX && listaSondas[i].getPosicao().getY() == posY) {
+					existeColisao = true;
+				}
 			}
 		}
 		
@@ -153,12 +156,38 @@ public class ControleExploracao {
 		return ehvalidoPosicao && ehValidoDirecao;
 	}
 	
+	public void verificarSondasPosicionadas() {
+		int qtdSondasPosicionadas = 0;
+		String numeroSondasPosicionadas = "";
+		
+		for(int i = 0; i < listaSondas.length; i++) {
+			if(!existeColisao(listaSondas[i].getPosicao().getX(), listaSondas[i].getPosicao().getY(), i)) {
+				qtdSondasPosicionadas++;
+				numeroSondasPosicionadas+= (i+1) + ",";
+			}
+		}
+		
+		System.out.printf("Quantidade de Sondas posicionadas corretamente: %d,", qtdSondasPosicionadas);
+		
+		System.out.println("\nSondas posicionadas corretamente: " + numeroSondasPosicionadas );
+		
+	}
+	
 	
 	
 	
 	public void validarExploracao() {
 		
-		System.out.printf("\nQuantidade de Colisões: %s\n",qtdColisoes);
+		
+		System.out.println("Resumo da Missão: ");
+		
+		System.out.printf("\nQuantidade de Colisões: %s,\n",qtdColisoes);
+		
+		verificarSondasPosicionadas();
+		
+		System.out.println("Sondas que perdemos contato (foram além do Planalto): W.I.P");
+		
+		System.out.println("\nResultado Final: W.I.P");
 	
 		System.out.println("\n===== Posições Finais das Sondas =====");
 		for(int i = 0; i < listaSondas.length; i++) {
